@@ -1,0 +1,49 @@
+{
+  "m3u8list":[
+    {
+      "url": "https://youku.com-www-163.com/20180626/14134_e099ef16/1000k/hls/index.m3u8",
+      "dir":"C:/felix/download/shameless/session5/Episode3",
+      "videoName":"无耻之徒第五季第三集"
+    },
+    {
+      "url": "https://youku.com-www-163.com/20180626/14135_b8a67396/1000k/hls/index.m3u8",
+      "dir":"C:/felix/download/shameless/session5/Episode4",
+      "videoName":"无耻之徒第五季第四集"
+    },
+    {
+      "url": "https://youku.com-www-163.com/20180626/14136_b2b6ffa8/1000k/hls/index.m3u8",
+      "dir":"C:/felix/download/shameless/session5/Episode5",
+      "videoName":"无耻之徒第五季第五集"
+    },
+    {
+      "url": "https://youku.com-www-163.com/20180626/14137_2935b9e3/1000k/hls/index.m3u8",
+      "dir":"C:/felix/download/shameless/session5/Episode6",
+      "videoName":"无耻之徒第五季第六集"
+    },
+    {
+      "url": "https://youku.com-www-163.com/20180626/14138_b3d91f17/1000k/hls/index.m3u8",
+      "dir":"C:/felix/download/shameless/session5/Episode7",
+      "videoName":"无耻之徒第五季第七集"
+    },
+    {
+      "url": "https://youku.com-www-163.com/20180626/14139_d2c6cdc2/1000k/hls/index.m3u8",
+      "dir":"C:/felix/download/shameless/session5/Episode8",
+      "videoName":"无耻之徒第五季第八集"
+    },
+    {
+      "url": "https://youku.com-www-163.com/20180626/14141_3e96bd4a/1000k/hls/index.m3u8",
+      "dir":"C:/felix/download/shameless/session5/Episode10",
+      "videoName":"无耻之徒第五季第十集"
+    },
+    {
+      "url": "https://youku.com-www-163.com/20180626/14142_d7725b4f/1000k/hls/index.m3u8",
+      "dir":"C:/felix/download/shameless/session5/Episode11",
+      "videoName":"无耻之徒第五季第十一集"
+    },
+    {
+      "url": "https://youku.com-www-163.com/20180626/14143_2da824cc/1000k/hls/index.m3u8",
+      "dir":"C:/felix/download/shameless/session5/Episode12",
+      "videoName":"无耻之徒第五季第十二集"
+    }
+  ]
+}
