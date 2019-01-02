@@ -8,13 +8,20 @@ import sys
 import queue
 import threading
 
+threadListSize = 5
+queueSize = 10
+
 _exitFlag = 0
 _ts_total = 0
 _count = 0
 _dir=''
 _videoName=''
 _queueLock = threading.Lock()
-_workQueue = queue.Queue(10)
+_workQueue = queue.Queue(queueSize)
+_threadList=[]
+for i in range(threadListSize):
+    _threadList.add("Thread-"+str(i))
+# threadList = ["Thread-1", "Thread-2", "Thread-3"]
 
 class downloadThread (threading.Thread):
     def __init__(self, threadID, name, q):
@@ -113,11 +120,10 @@ def start( m3u8_url, dir, videoName):
         print(r.status_code)
 
 def download(ts_list):
-    threadList = ["Thread-1", "Thread-2", "Thread-3"]
     threads = []
     threadID=1
     # 创建新线程
-    for tName in threadList:
+    for tName in _threadList:
         thread = downloadThread(threadID, tName, _workQueue)
         thread.start()
         threads.append(thread)
