@@ -1,8 +1,8 @@
 # downloader.py
 
-m3u8下载器，支持断点续传
+## m3u8下载器，支持断点续传
 
-使用方法：
+## 使用方法：
 
 打开m3u8.json
 
@@ -20,26 +20,26 @@ m3u8下载器，支持断点续传
 
 
 # downloader_lite.py 
-为精简版下载器
+## 精简版下载器
 
 不支持断点续传，下载速度有所提升
 
-使用方法
+## 使用方法
 
 在代码中录入m3u8的url、下载文件保存的地址、保存的文件名
 
 run('url','dir','videoName')
 
 # downloader_lite2.py
-精简版的多线程下载
+## 精简版多线程下载
 
 下载速度较于精简版大幅度提升
 
-使用方法
+## 使用方法
 
 在代码中录入m3u8的url、下载文件保存的地址、保存的文件名
 
-run('url','dir','videoName')
+start('url','dir','videoName')
 
 线程数大小更改
 
