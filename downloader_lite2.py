@@ -8,8 +8,8 @@ import sys
 import queue
 import threading
 
-threadListSize = 5
-queueSize = 10
+threadListSize = 8
+queueSize = 16
 
 _exitFlag = 0
 _ts_total = 0
@@ -20,7 +20,7 @@ _queueLock = threading.Lock()
 _workQueue = queue.Queue(queueSize)
 _threadList=[]
 for i in range(threadListSize):
-    _threadList.add("Thread-"+str(i))
+    _threadList.append("Thread-"+str(i))
 # threadList = ["Thread-1", "Thread-2", "Thread-3"]
 
 class downloadThread (threading.Thread):
@@ -30,9 +30,9 @@ class downloadThread (threading.Thread):
         self.name = name
         self.q = q
     def run(self):
-        print ("开启线程：" + self.name + '\n', end='')
-        download_data(self.name, self.q)
-        print ("退出线程：" + self.name + '\n', end='')
+        # print ("开启线程：" + self.name + '\n', end='')
+        download_data(self.q)
+        # print ("退出线程：" + self.name + '\n', end='')
 
 # 下载数据
 def download_data(q):
@@ -93,6 +93,11 @@ def show_progress(percent):
     sys.stdout.flush()
 
 def start( m3u8_url, dir, videoName):
+    global _dir
+    global _videoName
+    global _ts_total
+    if dir and not os.path.isdir(dir):
+        os.makedirs(dir)
     _dir=dir
     _videoName=videoName
     r = session.get(m3u8_url, timeout=10)
@@ -109,11 +114,18 @@ def start( m3u8_url, dir, videoName):
                 print('ts的总数量为：'+str(_ts_total)+'个')
                 # 下载ts文件
                 print('开始下载文件')
+                print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
                 res=download(ts_list)
+                # res=True
+                print('')
+                print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
                 if res:
                     # 整合ts文件
                     print('\n开始整合文件')
-                    join_file(ts_list)
+                    print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+                    merge_file(ts_list)
+                    print('')
+                    print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
                 else:
                     print('下载失败')
     else:
@@ -128,7 +140,7 @@ def download(ts_list):
         thread.start()
         threads.append(thread)
         threadID += 1
-    ts_list_tem=ts_list
+    ts_list_tem=ts_list.copy()
     fillQueue(ts_list_tem)
     # 等待队列清空
     while not _workQueue.empty():
@@ -137,6 +149,7 @@ def download(ts_list):
         else :
             fillQueue(ts_list_tem)
     # 通知线程是时候退出
+    global _exitFlag
     _exitFlag = 1
     # 等待所有线程完成
     for t in threads:
@@ -144,9 +157,10 @@ def download(ts_list):
     return True
 
 # 将TS文件整合在一起
-def join_file(ts_list):
+def merge_file(ts_list):
     index = 0
     outfile = ''
+    global _dir
     while index < _ts_total:
         file_name = ts_list[index].split('/')[-1].split('?')[0]
         # print(file_name)
@@ -154,19 +168,20 @@ def join_file(ts_list):
         show_progress(percent)
         infile = open(os.path.join(_dir, file_name), 'rb')
         if not outfile:
+            global _videoName
             if _videoName=='':
                 videoName=file_name.split('.')[0]+'_all'
             outfile = open(os.path.join(_dir, _videoName+'.'+file_name.split('.')[-1]), 'wb')
         outfile.write(infile.read())
         infile.close()
         # 删除临时ts文件
-        os.remove(os.path.join(dir, file_name))
+        os.remove(os.path.join(_dir, file_name))
         index += 1
     if outfile:
         outfile.close()
 
 def main():
-    start('url','dir','videoName')
+    start('https://youku.com-www-163.com/20180626/14138_b3d91f17/1000k/hls/index.m3u8','C:/felix/download/shameless/session5/Episode7','无耻之徒第五季第七集')
 
 if __name__ == '__main__':
     session = get_session(50, 50, 3)

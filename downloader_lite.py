@@ -6,6 +6,8 @@ import os
 import time
 import sys
 
+_dir=''
+_videoName=''
 def get_session( pool_connections, pool_maxsize, max_retries):
     session = requests.Session()
     adapter = requests.adapters.HTTPAdapter(pool_connections=pool_connections, pool_maxsize=pool_maxsize, max_retries=max_retries)
@@ -20,7 +22,13 @@ def show_progress(percent):
     sys.stdout.write("\rPercent: [%s] %.2f%%"%(hashes + spaces, percent*100))
     sys.stdout.flush()
 
-def run( m3u8_url, dir, videoName):
+def start( m3u8_url, dir, videoName):
+    global _dir
+    _dir=dir
+    if dir and not os.path.isdir(dir):
+        os.makedirs(dir)
+    global _videoName
+    _videoName=videoName
     r = session.get(m3u8_url, timeout=10)
     if r.ok:
         body = r.content.decode()
@@ -35,21 +43,26 @@ def run( m3u8_url, dir, videoName):
                 print('ts的总数量为：'+str(ts_total)+'个')
                 # 下载ts文件
                 print('开始下载文件')
-                res=download(ts_list, dir, videoName)
+                print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+                res=download(ts_list)
+                print('')
+                print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
                 if res:
                     # 整合ts文件
                     print('\n开始整合文件')
-                    join_file(ts_list, dir, videoName)
+                    print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+                    merge_file(ts_list)
+                    print('')
+                    print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
                 else:
                     print('下载失败')
     else:
         print(r.status_code)
 
-def download(ts_list, dir, videoName):
+def download(ts_list):
     # begin用于断点续传，设置起始位置;
     ts_total=len(ts_list)
     for i in range(0,ts_total) :
-        # print("序号：%s   url：%s" % (list.index(ts) + 1, ts))
         url = ts_list[i]
         index = i
         retry = 3
@@ -61,7 +74,7 @@ def download(ts_list, dir, videoName):
                 if r.ok:
                     file_name = url.split('/')[-1].split('?')[0]
                     # print(file_name)
-                    with open(os.path.join(dir, file_name), 'wb') as f:
+                    with open(os.path.join(_dir, file_name), 'wb') as f:
                         f.write(r.content)
                     break
             except Exception as e:
@@ -75,7 +88,7 @@ def download(ts_list, dir, videoName):
     return True
 
 # 将TS文件整合在一起
-def join_file(ts_list,dir, videoName):
+def merge_file(ts_list):
     index = 0
     outfile = ''
     ts_total = len(ts_list)
@@ -84,21 +97,22 @@ def join_file(ts_list,dir, videoName):
         # print(file_name)
         percent = index / ts_total
         show_progress(percent)
-        infile = open(os.path.join(dir, file_name), 'rb')
+        infile = open(os.path.join(_dir, file_name), 'rb')
         if not outfile:
-            if videoName=='':
-                videoName=file_name.split('.')[0]+'_all'
-            outfile = open(os.path.join(dir, videoName+'.'+file_name.split('.')[-1]), 'wb')
+            global _videoName
+            if _videoName=='':
+                _videoName=file_name.split('.')[0]+'_all'
+            outfile = open(os.path.join(_dir, _videoName+'.'+file_name.split('.')[-1]), 'wb')
         outfile.write(infile.read())
         infile.close()
         # 删除临时ts文件
-        os.remove(os.path.join(dir, file_name))
+        os.remove(os.path.join(_dir, file_name))
         index += 1
     if outfile:
         outfile.close()
 
 def main():
-    run('url','dir','videoName')
+    start('https://youku.com-www-163.com/20180626/14135_b8a67396/1000k/hls/index.m3u8','C:/felix/download/shameless/session5/Episode4','无耻之徒第五季第四集')
 
 if __name__ == '__main__':
     session = get_session(50, 50, 3)
