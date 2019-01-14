@@ -8,8 +8,8 @@ import sys
 import queue
 import threading
 
-threadListSize = 8
-queueSize = 16
+threadListSize = 16
+queueSize = 32
 
 _exitFlag = 0
 _ts_total = 0
@@ -171,7 +171,7 @@ def merge_file(ts_list):
             global _videoName
             if _videoName=='':
                 videoName=file_name.split('.')[0]+'_all'
-            outfile = open(os.path.join(_dir, _videoName+'.'+file_name.split('.')[-1]), 'wb')
+            outfile = open(os.path.join(_dir, _videoName+'.mp4'), 'wb')
         outfile.write(infile.read())
         infile.close()
         # 删除临时ts文件
@@ -181,7 +181,10 @@ def merge_file(ts_list):
         outfile.close()
 
 def main():
-    start('https://youku.com-www-163.com/20180626/14138_b3d91f17/1000k/hls/index.m3u8','C:/felix/download/shameless/session5/Episode7','无耻之徒第五季第七集')
+    url='index.m3u8'
+    dir='C:/felix/download/'
+    videoName='name'
+    start(url,dir,videoName)
 
 if __name__ == '__main__':
     session = get_session(50, 50, 3)
