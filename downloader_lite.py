@@ -59,6 +59,22 @@ def start( m3u8_url, dir, videoName):
     else:
         print(r.status_code)
 
+def get_real_url( m3u8_url):
+    r = session.get(m3u8_url, timeout=10)
+    if r.ok:
+        body = r.content.decode()
+        if body:
+            ts_url=''
+            body_list=body.split('\n')
+            for n in body_list:
+                if n and not n.startswith("#"):
+                    ts_url=urllib.parse.urljoin(m3u8_url, n.strip())
+            if ts_url!='':
+                print('真实地址为'+ts_url)
+                return ts_url
+    else:
+        print(r.status_code)
+
 def download(ts_list):
     # begin用于断点续传，设置起始位置;
     ts_total=len(ts_list)
@@ -112,7 +128,11 @@ def merge_file(ts_list):
         outfile.close()
 
 def main():
-    start('https://youku.com-www-163.com/20180626/14135_b8a67396/1000k/hls/index.m3u8','C:/felix/download/shameless/session5/Episode4','无耻之徒第五季第四集')
+    url='https://bobo.okokbo.com/20171122/twzzAPDq/index.m3u8'
+    real_url=get_real_url(url)
+    # dir='D:/felix/download/8/2'
+    # videoName='8-2'
+    # start(real_url,dir,videoName)
 
 if __name__ == '__main__':
     session = get_session(50, 50, 3)

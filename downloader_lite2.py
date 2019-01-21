@@ -8,8 +8,8 @@ import sys
 import queue
 import threading
 
-threadListSize = 8
-queueSize = 16
+threadListSize = 48
+queueSize = 96
 
 _exitFlag = 0
 _ts_total = 0
@@ -66,6 +66,7 @@ def download_data(q):
         else:
             _queueLock.release()
 
+
 # 填充队列
 def fillQueue(nameList):
     _queueLock.acquire()
@@ -76,8 +77,9 @@ def fillQueue(nameList):
             break
     _queueLock.release()
 
-# 构造session
+
 def get_session( pool_connections, pool_maxsize, max_retries):
+    '''构造session'''
     session = requests.Session()
     adapter = requests.adapters.HTTPAdapter(pool_connections=pool_connections, pool_maxsize=pool_maxsize, max_retries=max_retries)
     session.mount('http://', adapter)
@@ -164,14 +166,14 @@ def merge_file(ts_list):
     while index < _ts_total:
         file_name = ts_list[index].split('/')[-1].split('?')[0]
         # print(file_name)
-        percent = index / _ts_total
+        percent = (index + 1) / _ts_total
         show_progress(percent)
         infile = open(os.path.join(_dir, file_name), 'rb')
         if not outfile:
             global _videoName
             if _videoName=='':
                 videoName=file_name.split('.')[0]+'_all'
-            outfile = open(os.path.join(_dir, _videoName+'.'+file_name.split('.')[-1]), 'wb')
+            outfile = open(os.path.join(_dir, _videoName+'.mp4'), 'wb')
         outfile.write(infile.read())
         infile.close()
         # 删除临时ts文件
@@ -180,8 +182,55 @@ def merge_file(ts_list):
     if outfile:
         outfile.close()
 
+
+def get_real_url( m3u8_url):
+    r = session.get(m3u8_url, timeout=10)
+    if r.ok:
+        body = r.content.decode()
+        if body:
+            ts_url=''
+            body_list=body.split('\n')
+            for n in body_list:
+                if n and not n.startswith("#"):
+                    ts_url=urllib.parse.urljoin(m3u8_url, n.strip())
+            if ts_url!='':
+                print('真实地址为'+ts_url)
+                return ts_url
+    else:
+        print(r.status_code)
+
+
 def main():
-    start('https://youku.com-www-163.com/20180626/14138_b3d91f17/1000k/hls/index.m3u8','C:/felix/download/shameless/session5/Episode7','无耻之徒第五季第七集')
+    urllist=[
+        'https://baidu.com-v-baidu.com/20180917/6878_0e74fb08/index.m3u8',
+        'https://baidu.com-v-baidu.com/20180923/7054_06b5270d/index.m3u8',
+        'https://baidu.com-v-baidu.com/20180930/7320_97c2612b/index.m3u8',
+        'https://baidu.com-v-baidu.com/20181009/7643_16b0e443/index.m3u8',
+        'https://baidu.com-v-baidu.com/20181016/7936_53d68214/index.m3u8',
+        'https://baidu.com-v-baidu.com/20181023/8266_c002606f/index.m3u8'
+    ]
+    for i in range(6):
+        index=str(i+2)
+        print("开始下载第"+index+"集,url:"+urllist[i])
+        url=urllist[i]
+        dir='D:/felix/download/9/'+index
+        videoName='9-'+index
+        real_url=get_real_url(url)
+        global _exitFlag
+        _exitFlag=0
+        start(real_url,dir,videoName)
+    # print("开始下载第11集")
+    # url='https://bobo.okokbo.com/20180124/1a6eSKAx/index.m3u8'
+    # dir='D:/felix/download/8/11'
+    # videoName='8-11'
+    # real_url=get_real_url(url)
+    # start(real_url,dir,videoName)
+    # print("开始下载第1集")
+    # url='https://baidu.com-v-baidu.com/20180911/6641_db2155b2/index.m3u8'
+    # dir='D:/felix/download/9/1'
+    # videoName='9-1'
+    # real_url=get_real_url(url)
+    # start(real_url,dir,videoName)
 
 if __name__ == '__main__':
     session = get_session(50, 50, 3)
