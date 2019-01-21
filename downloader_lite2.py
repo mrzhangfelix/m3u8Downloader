@@ -219,18 +219,6 @@ def main():
         global _exitFlag
         _exitFlag=0
         start(real_url,dir,videoName)
-    # print("开始下载第11集")
-    # url='https://bobo.okokbo.com/20180124/1a6eSKAx/index.m3u8'
-    # dir='D:/felix/download/8/11'
-    # videoName='8-11'
-    # real_url=get_real_url(url)
-    # start(real_url,dir,videoName)
-    # print("开始下载第1集")
-    # url='https://baidu.com-v-baidu.com/20180911/6641_db2155b2/index.m3u8'
-    # dir='D:/felix/download/9/1'
-    # videoName='9-1'
-    # real_url=get_real_url(url)
-    # start(real_url,dir,videoName)
 
 if __name__ == '__main__':
     session = get_session(50, 50, 3)
