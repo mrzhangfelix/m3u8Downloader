@@ -210,14 +210,16 @@ def main():
         'https://baidu.com-v-baidu.com/20181023/8266_c002606f/index.m3u8'
     ]
     for i in range(6):
-        index=str(i+2)
+        index = str(i+2)
         print("开始下载第"+index+"集,url:"+urllist[i])
-        url=urllist[i]
-        dir='D:/felix/download/9/'+index
-        videoName='9-'+index
-        real_url=get_real_url(url)
+        url = urllist[i]
+        dir = 'D:/felix/download/9/'+index
+        videoName = '9-'+index
+        real_url = get_real_url(url)
         global _exitFlag
-        _exitFlag=0
+        global _count
+        _count = 0
+        _exitFlag = 0
         start(real_url,dir,videoName)
 
 if __name__ == '__main__':
