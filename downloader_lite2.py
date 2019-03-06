@@ -202,19 +202,40 @@ def get_real_url( m3u8_url):
 
 def main():
     urllist=[
-        'https://baidu.com-v-baidu.com/20180917/6878_0e74fb08/index.m3u8',
-        'https://baidu.com-v-baidu.com/20180923/7054_06b5270d/index.m3u8',
-        'https://baidu.com-v-baidu.com/20180930/7320_97c2612b/index.m3u8',
-        'https://baidu.com-v-baidu.com/20181009/7643_16b0e443/index.m3u8',
-        'https://baidu.com-v-baidu.com/20181016/7936_53d68214/index.m3u8',
-        'https://baidu.com-v-baidu.com/20181023/8266_c002606f/index.m3u8'
+        'https://pptv.com-l-pptv.com/20190111/12597_92ba19db/index.m3u8',
+'https://pptv.com-l-pptv.com/20190111/12590_f66c5725/index.m3u8',
+'https://pptv.com-l-pptv.com/20190111/12591_0519cda4/index.m3u8',
+'https://pptv.com-l-pptv.com/20190111/12592_bc25fbb0/index.m3u8',
+'https://pptv.com-l-pptv.com/20190111/12598_4a3233dc/index.m3u8',
+'https://pptv.com-l-pptv.com/20190111/12593_04a423af/index.m3u8',
+'https://pptv.com-l-pptv.com/20190111/12594_d981822d/index.m3u8',
+'https://pptv.com-l-pptv.com/20190111/12595_ff397802/index.m3u8'
+
     ]
-    for i in range(6):
-        index = str(i+2)
-        print("开始下载第"+index+"集,url:"+urllist[i])
+    dirlist=['D:/felix/download/性爱自修室第一季',
+    'D:/felix/download/性爱自修室第一季',
+    'D:/felix/download/性爱自修室第一季',
+    'D:/felix/download/性爱自修室第一季',
+    'D:/felix/download/性爱自修室第一季',
+    'D:/felix/download/性爱自修室第一季',
+    'D:/felix/download/性爱自修室第一季',
+    'D:/felix/download/性爱自修室第一季'
+    ]
+    videoNameList=['第1集',
+    '第2集',
+    '第3集',
+    '第4集',
+    '第5集',
+    '第6集',
+    '第7集',
+    '第8集',    
+    ]
+    for i in range(8):
+        index = str(i+1)
+        print("开始下载第"+index+"个视频,url:"+urllist[i])
         url = urllist[i]
-        dir = 'D:/felix/download/9/'+index
-        videoName = '9-'+index
+        dir = dirlist[i]
+        videoName = videoNameList[i]
         real_url = get_real_url(url)
         global _exitFlag
         global _count
