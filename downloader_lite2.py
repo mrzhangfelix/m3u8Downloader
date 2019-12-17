@@ -202,41 +202,27 @@ def get_real_url( m3u8_url):
 
 def main():
     urllist=[
-        'https://pptv.com-l-pptv.com/20190111/12597_92ba19db/index.m3u8',
-'https://pptv.com-l-pptv.com/20190111/12590_f66c5725/index.m3u8',
-'https://pptv.com-l-pptv.com/20190111/12591_0519cda4/index.m3u8',
-'https://pptv.com-l-pptv.com/20190111/12592_bc25fbb0/index.m3u8',
-'https://pptv.com-l-pptv.com/20190111/12598_4a3233dc/index.m3u8',
-'https://pptv.com-l-pptv.com/20190111/12593_04a423af/index.m3u8',
-'https://pptv.com-l-pptv.com/20190111/12594_d981822d/index.m3u8',
-'https://pptv.com-l-pptv.com/20190111/12595_ff397802/index.m3u8'
+        # 'http://bili.meijuzuida.com/20190212/3571_17a77abc/index.m3u8'
+        # 'http://bili.meijuzuida.com/20190212/3569_29fd32e1/index.m3u8'
+        'http://bili.meijuzuida.com/20190212/3567_6659f381/index.m3u8',
+        'http://bili.meijuzuida.com/20190212/3566_95586a0e/index.m3u8',
+        'http://bili.meijuzuida.com/20190212/3565_60a5e00c/index.m3u8',
+        'http://bili.meijuzuida.com/20190212/3564_e92a9b9b/index.m3u8',
+        'http://bili.meijuzuida.com/20190212/3563_f757d521/index.m3u8'
 
     ]
-    dirlist=['D:/felix/download/性爱自修室第一季',
-    'D:/felix/download/性爱自修室第一季',
-    'D:/felix/download/性爱自修室第一季',
-    'D:/felix/download/性爱自修室第一季',
-    'D:/felix/download/性爱自修室第一季',
-    'D:/felix/download/性爱自修室第一季',
-    'D:/felix/download/性爱自修室第一季',
-    'D:/felix/download/性爱自修室第一季'
+    dirlist='D:/felix/download/九五至尊'
+    videoNameList=['第6集','第7集','第8集','第9集','第10集'
     ]
-    videoNameList=['第1集',
-    '第2集',
-    '第3集',
-    '第4集',
-    '第5集',
-    '第6集',
-    '第7集',
-    '第8集',    
-    ]
-    for i in range(8):
+    for i in range(len(urllist)):
         index = str(i+1)
         print("开始下载第"+index+"个视频,url:"+urllist[i])
         url = urllist[i]
-        dir = dirlist[i]
+        dir = dirlist
         videoName = videoNameList[i]
+        #是否需要获取真实的url
         real_url = get_real_url(url)
+        # real_url = url
         global _exitFlag
         global _count
         _count = 0
