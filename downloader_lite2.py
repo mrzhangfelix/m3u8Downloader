@@ -204,15 +204,17 @@ def main():
     urllist=[
         # 'http://bili.meijuzuida.com/20190212/3571_17a77abc/index.m3u8'
         # 'http://bili.meijuzuida.com/20190212/3569_29fd32e1/index.m3u8'
-        'http://bili.meijuzuida.com/20190212/3567_6659f381/index.m3u8',
-        'http://bili.meijuzuida.com/20190212/3566_95586a0e/index.m3u8',
-        'http://bili.meijuzuida.com/20190212/3565_60a5e00c/index.m3u8',
-        'http://bili.meijuzuida.com/20190212/3564_e92a9b9b/index.m3u8',
-        'http://bili.meijuzuida.com/20190212/3563_f757d521/index.m3u8'
+        # 'https://youku.cdn1-okzy.com/20191219/10651_d484578e/index.m3u8',
+        'https://youku.cdn1-okzy.com/20191219/10652_7d060176/index.m3u8',
+        'https://youku.cdn2-okzy.com/20191219/6505_009239ff/index.m3u8',
+        'https://youku.cdn2-okzy.com/20191219/6504_107c0620/index.m3u8',
+        'https://youku.cdn4-okzy.com/20191219/3450_c47f76f5/index.m3u8',
+        'https://youku.cdn4-okzy.com/20191219/3448_32063996/index.m3u8'
+
 
     ]
-    dirlist='D:/felix/download/九五至尊'
-    videoNameList=['第6集','第7集','第8集','第9集','第10集'
+    dirlist='D:/felix/download/庆余年'
+    videoNameList=['第35集','第36集','第37集','第38集','第39集'
     ]
     for i in range(len(urllist)):
         index = str(i+1)
