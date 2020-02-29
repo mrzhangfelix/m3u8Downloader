@@ -4,7 +4,9 @@
 import sys
 from PyQt5.QtWidgets import (QWidget, QLabel, QLineEdit, QPushButton, QAction, QProgressBar,
                              QTextEdit, QGridLayout, QApplication)
+from PyQt5.QtCore import QBasicTimer
 
+import m3u8download
 
 
 class Example(QWidget):
@@ -24,9 +26,11 @@ class Example(QWidget):
 
         self.nameEdit = QLineEdit()
         self.pathEdit = QLineEdit()
-        self.reviewEdit = QTextEdit()
+        self.urlEdit = QTextEdit()
         self.pbar = QProgressBar(self)
         self.pbar.setGeometry(30, 40, 200, 25)
+
+        self.timer = QBasicTimer()
 
         grid = QGridLayout()
         grid.setSpacing(10)
@@ -38,7 +42,7 @@ class Example(QWidget):
         grid.addWidget(self.pathEdit, 2, 1)
 
         grid.addWidget(self.url, 3, 0)
-        grid.addWidget(self.reviewEdit, 3, 1, 2, 1)
+        grid.addWidget(self.urlEdit, 3, 1, 2, 1)
 
         grid.addWidget(self.process, 6, 0)
         grid.addWidget(self.pbar, 6, 1)
@@ -53,10 +57,20 @@ class Example(QWidget):
         self.setWindowTitle('m3u8download')
         self.show()
 
+    def timerEvent(self, e):
+        index,process=m3u8download.getprocess
+        if index == -1:
+            self.timer.stop()
+            return
+        self.pbar.setValue(process)
+
+
     def doAction(self):
-         name = self.nameEdit.text()
-         path = self.nameEdit.text()
-         url = self.nameEdit.text()
+        name = self.nameEdit.text()
+        path = self.pathEdit.text()
+        url = self.urlEdit.toPlainText()
+        m3u8download.fun(name,path,url)
+        self.timer.start(500, self)
 
 if __name__ == '__main__':
 
