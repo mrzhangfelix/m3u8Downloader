@@ -82,9 +82,11 @@ def get_real_url( m3u8_url):
             for n in body_list:
                 if n and not n.startswith("#"):
                     ts_url=urllib.parse.urljoin(m3u8_url, n.strip())
+                    if ts_url.endswith('.ts'):
+                        return m3u8_url
             if ts_url!='':
-                print('真实地址为'+ts_url)
-                return ts_url
+                    print('真实地址为'+ts_url)
+                    return ts_url
     else:
         print(r.status_code)
 
