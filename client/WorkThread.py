@@ -5,8 +5,8 @@ import urllib
 
 from PyQt5.QtCore import QThread, pyqtSignal
 
-from wxpython import constant, sessionutil, util
-from wxpython.DownloadThread import DownloadThread
+from client import constant, sessionUtil, util
+from client.DownloadThread import DownloadThread
 
 
 class WorkThread(QThread):
@@ -55,7 +55,7 @@ class WorkThread(QThread):
         constant._dir = dir
         constant._videoName = videoName
         self.signalinfo.emit('开始获取文件资源')
-        r = sessionutil.session.get(m3u8_url, timeout=10)
+        r = sessionUtil.session.get(m3u8_url, timeout=10)
         if r.ok:
             body = r.content.decode()
             if body:

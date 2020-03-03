@@ -3,7 +3,7 @@
 import urllib.parse
 import sys
 
-from wxpython import sessionutil
+from client import sessionUtil
 
 
 # 展示进度条
@@ -17,7 +17,7 @@ def show_progress(percent):
 
 # 用于获取最新队列
 def get_real_url(m3u8_url):
-    r = sessionutil.session.get(m3u8_url, timeout=10)
+    r = sessionUtil.session.get(m3u8_url, timeout=10)
     if r.ok:
         body = r.content.decode()
         if body:

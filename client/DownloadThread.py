@@ -4,7 +4,7 @@ import threading
 
 from PyQt5.QtCore import QThread, pyqtSignal
 
-from wxpython import constant, sessionutil, util
+from client import constant, sessionUtil, util
 
 
 class DownloadThread(QThread):
@@ -34,7 +34,7 @@ class DownloadThread(QThread):
                 retry = 3
                 while retry:
                     try:
-                        r = sessionutil.session.get(url, timeout=20)
+                        r = sessionUtil.session.get(url, timeout=20)
                         if r.ok:
                             file_name = url.split('/')[-1].split('?')[0]
                             # print(file_name)

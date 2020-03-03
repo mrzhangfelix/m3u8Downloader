@@ -4,7 +4,7 @@ import sys
 from PyQt5.QtWidgets import (QWidget, QLabel, QLineEdit, QPushButton, QAction, QProgressBar,
                              QTextEdit, QGridLayout, QApplication)
 # UI界面绘制
-from wxpython.WorkThread import WorkThread
+from client.WorkThread import WorkThread
 
 
 class UI(QWidget):
