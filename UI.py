@@ -207,6 +207,7 @@ class Example(QWidget):
         path = self.pathEdit.text()
         url = self.urlEdit.toPlainText()
         ex.info.setText('开始下载')
+        QApplication.processEvents()
         fun(name,path,url)
 
 if __name__ == '__main__':
