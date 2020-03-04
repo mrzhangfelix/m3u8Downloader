@@ -30,6 +30,7 @@ class UI(QWidget):
         grid = QGridLayout()
         grid.setSpacing(10)
 
+        # 参数为控件名，行，列，占用行数，占用列数
         grid.addWidget(self.name, 1, 0)
         grid.addWidget(self.nameEdit, 1, 1)
 
@@ -39,19 +40,20 @@ class UI(QWidget):
         grid.addWidget(self.url, 3, 0)
         grid.addWidget(self.urlEdit, 3, 1, 2, 1)
 
-        grid.addWidget(self.info, 5, 0)
+        grid.addWidget(self.info, 5, 0, 1, 2)
 
         grid.addWidget(self.process, 6, 0)
         grid.addWidget(self.pbar, 6, 1)
 
         self.btn = QPushButton('Start', self)
-        # self.btn.move(65, 230)
         self.btn.clicked.connect(self.buttonClick)
-        grid.addWidget(self.btn)
+        self.btn.setMaximumSize(80,25)
+        grid.addWidget(self.btn, 7, 1)
         self.setLayout(grid)
 
+        # 从屏幕上（300，300）位置开始（即为最左上角的点），显示一个900*300的界面（宽900，高300）
         self.setGeometry(300, 300, 900, 300)
-        self.setWindowTitle('m3u8download')
+        self.setWindowTitle('m3u8Downloader')
         self.show()
 
     # 按钮点击事件
