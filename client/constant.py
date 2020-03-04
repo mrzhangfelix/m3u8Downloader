@@ -15,6 +15,9 @@ queueSize = 96
 # 当前下载ts文件的总数
 _ts_total = 0
 
+# 当前任务的进度
+_percent=0
+
 # 下载的目录
 _dir = ''
 
