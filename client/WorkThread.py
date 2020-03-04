@@ -1,16 +1,17 @@
-# 执行后台功能的线程，保证和不影响前台UI的显示
 import os
 import time
 import urllib
 
 from PyQt5.QtCore import QThread, pyqtSignal
 
-from client import constant, sessionUtil, util
+from client import constant, sessionutil, util
 from client.DownloadThread import DownloadThread
 
 
+# 执行后台功能的线程，保证和不影响前台UI的显示
 class WorkThread(QThread):
-    signalprocess = pyqtSignal(str)  # 括号里填写信号传递的参数
+    # 括号里填写信号传递的参数
+    signalprocess = pyqtSignal(str)
     signalinfo = pyqtSignal(str)
     signalpercent = pyqtSignal(int)
 
@@ -26,7 +27,6 @@ class WorkThread(QThread):
     def run(self):
         # 进行任务操作
         self.fun(self.name, self.path, self.url)
-        # self.signalprocess.emit()    # 发射信号
 
     def fun(self, name, path, url):
         urllist = url.split(';')
@@ -55,7 +55,7 @@ class WorkThread(QThread):
         constant._dir = dir
         constant._videoName = videoName
         self.signalinfo.emit('开始获取文件资源')
-        r = sessionUtil.session.get(m3u8_url, timeout=10)
+        r = sessionutil.session.get(m3u8_url, timeout=10)
         if r.ok:
             body = r.content.decode()
             if body:
@@ -89,6 +89,7 @@ class WorkThread(QThread):
         else:
             print(r.status_code)
 
+    # 调用下载数据线程，下载ts_list中的所有链接
     def download(self, ts_list):
         threads = []
         threadID = 1
@@ -114,7 +115,7 @@ class WorkThread(QThread):
             t.wait()
         return True
 
-    # 填充队列
+    # 填充线程队列
     def fillQueue(self, nameList):
         constant._queueLock.acquire()
         for word in nameList:
@@ -130,7 +131,6 @@ class WorkThread(QThread):
         outfile = ''
         while index < constant._ts_total:
             file_name = ts_list[index].split('/')[-1].split('?')[0]
-            # print(file_name)
             percent = (index + 1) / constant._ts_total
             util.show_progress(percent * 100)
             file_path = os.path.join(constant._dir, file_name)
@@ -138,7 +138,7 @@ class WorkThread(QThread):
                 infile = open(file_path, 'rb')
                 if not outfile:
                     if constant._videoName == '':
-                        constant._videoName = file_name.split('.')[0] + '_all'
+                        constant._videoName = '未命名'
                     outfile = open(os.path.join(constant._dir, constant._videoName + '.mp4'), 'wb')
                 outfile.write(infile.read())
                 infile.close()
@@ -148,5 +148,6 @@ class WorkThread(QThread):
         if outfile:
             outfile.close()
 
+    # 获取当前进度百分比的回调
     def callbackpercent(self, percent):
         self.signalpercent.emit(percent)
