@@ -4,7 +4,7 @@ import urllib
 
 from PyQt5.QtCore import QThread, pyqtSignal
 
-from client import constant, sessionutil, util
+from client import constant, sessionUtil, util
 from client.DownloadThread import DownloadThread
 
 

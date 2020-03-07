@@ -3,7 +3,7 @@
 import urllib.parse
 import sys
 
-from client import sessionutil
+from client import sessionUtil
 
 
 # 展示进度条
