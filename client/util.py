@@ -17,7 +17,7 @@ def show_progress(percent):
 
 # 用于获取真实的url地址，某些m3u8链接是用于获取一个新的链接
 def get_real_url(m3u8_url):
-    r = sessionutil.session.get(m3u8_url, timeout=10)
+    r = sessionUtil.session.get(m3u8_url, timeout=10)
     if r.ok:
         body = r.content.decode()
         if body:

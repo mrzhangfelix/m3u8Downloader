@@ -55,7 +55,7 @@ class WorkThread(QThread):
         constant._dir = dir
         constant._videoName = videoName
         self.signalinfo.emit('开始获取文件资源')
-        r = sessionutil.session.get(m3u8_url, timeout=10)
+        r = sessionUtil.session.get(m3u8_url, timeout=10)
         if r.ok:
             body = r.content.decode()
             if body:

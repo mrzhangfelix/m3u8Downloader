@@ -35,7 +35,7 @@ class DownloadThread(QThread):
                 retry = 3
                 while retry:
                     try:
-                        r = sessionutil.session.get(url, timeout=20)
+                        r = sessionUtil.session.get(url, timeout=20)
                         if r.ok:
                             file_name = url.split('/')[-1].split('?')[0]
                             with open(os.path.join(constant._dir, file_name), 'wb') as f:
